@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+langchain
+langchain-community
+faiss-cpu
+unstructured[md]
+python-frontmatter
+beautifulsoup4
+ollama

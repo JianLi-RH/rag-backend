@@ -1,0 +1,45 @@
+document_parser:
+  supported_types:
+    - ".docx"
+    - ".pdf"
+    - ".md"
+    - ".txt"
+    - ".xlsx"
+
+document_chunker:
+  chunk_settings:
+    ".docx":
+      chunk_size: 250
+      overlap: 50
+    ".pdf":
+      chunk_size: 500
+      overlap: 50
+    ".md":
+      chunk_size: 500
+      overlap: 150
+    ".txt":
+      chunk_size: 250
+      overlap: 50
+    ".xlsx":
+      chunk_size: 500
+      overlap: 100
+
+# RAG settings
+docs_paths:
+  - "./assets/docs"
+  - "./assets/uploaded_docs"
+vector_store_path: "./vector_store"
+max_batch_size: 50
+
+# LLM settings
+chat_model: "qwen3.5:4b"
+embedding_model: "nomic-embed-text-v2-moe:latest"
+
+# vector store settings
+embeddings_provider: "ollama"
+vector_store_type: "chroma"
+
+# Logging settings
+logging:
+  log_file: "./logs/app.log"
+  log_level: "INFO"

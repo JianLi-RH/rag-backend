@@ -1,0 +1,263 @@
+{
+  "files": [
+    {
+      "name": "c-api.pdf",
+      "path": "uploaded_docs\\c-api.pdf",
+      "embeded": true,
+      "upload_time": "2026-04-18T10:08:17.101045",
+      "vectorized_time": "2026-04-18T10:08:17.101045"
+    },
+    {
+      "name": "library.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\library.pdf",
+      "embeded": true,
+      "upload_time": "2026-04-18T10:53:38.339257",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-logging.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-logging.pdf",
+      "embeded": true,
+      "upload_time": "2026-04-18T10:53:38.345139",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-argparse-optparse.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-argparse-optparse.pdf",
+      "embeded": true,
+      "upload_time": "2026-04-18T10:53:38.349726",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-descriptor.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-descriptor.pdf",
+      "embeded": true,
+      "upload_time": "2026-04-18T10:53:38.353653",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-free-threading-extensions.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-free-threading-extensions.pdf",
+      "embeded": true,
+      "upload_time": "2026-04-18T10:53:38.359272",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-a-conceptual-overview-of-asyncio.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-a-conceptual-overview-of-asyncio.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.365549",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-ipaddress.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-ipaddress.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.371729",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-sockets.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-sockets.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.377909",
+      "vectorized_time": null
+    },
+    {
+      "name": "extending.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\extending.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.382459",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-curses.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-curses.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.387233",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-cporting.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-cporting.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.392316",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-isolating-extensions.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-isolating-extensions.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.398201",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-perf_profiling.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-perf_profiling.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.403724",
+      "vectorized_time": null
+    },
+    {
+      "name": "faq.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\faq.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.410140",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-logging-cookbook.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-logging-cookbook.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.415654",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-regex.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-regex.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.420327",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-enum.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-enum.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.426171",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-pyporting.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-pyporting.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.432023",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-free-threading-python.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-free-threading-python.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.438044",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-instrumentation.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-instrumentation.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.443378",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-annotations.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-annotations.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.448398",
+      "vectorized_time": null
+    },
+    {
+      "name": "installing.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\installing.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.453790",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-argparse.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-argparse.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.459385",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-functional.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-functional.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.464431",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-unicode.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-unicode.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.469481",
+      "vectorized_time": null
+    },
+    {
+      "name": "using.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\using.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.474810",
+      "vectorized_time": null
+    },
+    {
+      "name": "tutorial.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\tutorial.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.480339",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-sorting.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-sorting.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.485594",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-urllib2.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-urllib2.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.491614",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-clinic.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-clinic.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.496952",
+      "vectorized_time": null
+    },
+    {
+      "name": "c-api.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\c-api.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.502141",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-mro.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-mro.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.507336",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-timerfd.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-timerfd.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.513440",
+      "vectorized_time": null
+    },
+    {
+      "name": "whatsnew.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\whatsnew.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.520543",
+      "vectorized_time": null
+    },
+    {
+      "name": "reference.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\reference.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.528918",
+      "vectorized_time": null
+    },
+    {
+      "name": "howto-gdb_helpers.pdf",
+      "path": "uploaded_docs\\python-3.13-docs-pdf-a4\\docs-pdf\\howto-gdb_helpers.pdf",
+      "embeded": false,
+      "upload_time": "2026-04-18T10:53:38.534672",
+      "vectorized_time": null
+    }
+  ]
+}
