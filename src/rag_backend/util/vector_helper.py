@@ -36,18 +36,18 @@ async def embed_document_svc(file_path: str) -> bool:
     lock = threading.Lock()
     j = 0
     for i in range(0, len(all_documents), batch_size):
-        logger.info(f"Embedding batch {j} of {int(len(all_documents)/batch_size)} with size {batch_size}") 
-        j += 1
-        batch = all_documents[i:i+batch_size]
         try:
+            logger.info(f"Embedding batch {j} of {int(len(all_documents)/batch_size)} with size {batch_size}") 
+            batch = all_documents[i:i+batch_size]
             with lock:
                 vector_store = VectorStoreFactory.create("default")
                 vector_store.add_documents(
                     documents=batch
                 )
+            j += 1
         except Exception as e:
-            logger.error(f"Batch content: {batch}")
-            raise Exception(f"Failed to embed batch {j}: {e}")
+            logger.error(f"[embed_document_svc] Batch content: {batch}")
+            raise Exception(f"[embed_document_svc] Failed to embed batch {j}: {e}")
 
     logger.info("Vector store updated successfully.")
     return True

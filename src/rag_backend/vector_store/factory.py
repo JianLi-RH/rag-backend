@@ -4,7 +4,6 @@ from rag_backend.embeding.factory import EmbeddingsFactory
 
 from .base import BaseVectorStore
 from .chroma import ChromaVectorStore
-from .faiss import FaissVectorStore
 from rag_backend.config.settings import settings
 from rag_backend.util import logger
 

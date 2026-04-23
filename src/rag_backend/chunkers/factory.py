@@ -1,5 +1,6 @@
-# -*- coding: gbk -*-
+# -*- coding: utf-8 -*-
 
+from rag_backend.util import file_status_manager
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any
 from rag_backend.util import logger
@@ -25,25 +26,24 @@ class DocumentChunker(ABC):
         if not text:
             return []
         sentences = re.split(r'[\n\r]+', text)
-        logger.info(f"sentences: {sentences}")
         sentences_length = len(sentences)
         max_chunk_size = chunk_size + overlap
         chunks = []
         start_index, index = 0, 1
-        while index < sentences_length:
+        while index <= sentences_length:
             tmp = "\n".join(sentences[start_index:index])
             if len(tmp) > max_chunk_size:
                 index -= 1
+                tmp = "\n".join(sentences[start_index:index])
                 chunks.append(tmp)
                 start_index = index
                 index += 1
             else:
                 index += 1
 
-        if index < sentences_length:
+        if index > sentences_length:
             chunks.append("\n".join(sentences[start_index:]))
         
-        logger.info(f"chunks: {chunks}")
         return chunks
 
     def _split_by_chapters(self, text: str) -> List[tuple]:
@@ -192,6 +192,7 @@ class TableChunker(DocumentChunker):
 
 class PDFChunker(DocumentChunker):
     def chunk(self, file_path: str, parsed_content: str) -> List[Dict[str, Any]]:
+        file_path = file_status_manager.get_relative_path(file_path)
         chunk_settings = self.get_settings(".pdf")
         chunk_size = chunk_settings.get("chunk_size", 500)
         overlap = chunk_settings.get("overlap", 50)
@@ -206,9 +207,7 @@ class PDFChunker(DocumentChunker):
         for title, content in paragraphs:
             if len(content) > chunk_size + overlap:
                 text_chunks = self._split_long_text(content, chunk_size, overlap)
-                logger.info(f"text_chunks: {text_chunks}")
                 for chunk_text in text_chunks:
-
                     chunks.append(Document(
                     page_content=chunk_text,
                     metadata={
@@ -222,7 +221,6 @@ class PDFChunker(DocumentChunker):
                     }
                 ))
             else:
-                logger.info(f"chunk_text2: {content}")
                 chunks.append(Document(
                     page_content=content,
                     metadata={
@@ -259,7 +257,6 @@ class DocumentChunkerFactory:
         file_extension = os.path.splitext(file_path)[1]
         logger.info(f"Starting to chunk document with extension: {file_extension}")
 
-        # �����ļ�����ѡ��ͬ����Ƭ����
         if file_extension == ".docx":
             logger.debug("Using Word chunker for .docx file")
             word_chunker = cls.get_chunker("word")

@@ -9,30 +9,30 @@ document_parser:
 document_chunker:
   chunk_settings:
     ".docx":
-      chunk_size: 250
+      chunk_size: 500
       overlap: 50
     ".pdf":
       chunk_size: 500
       overlap: 50
     ".md":
       chunk_size: 500
-      overlap: 150
+      overlap: 50
     ".txt":
-      chunk_size: 250
+      chunk_size: 500
       overlap: 50
     ".xlsx":
       chunk_size: 500
-      overlap: 100
+      overlap: 50
 
 # RAG settings
 docs_paths:
   - "./assets/docs"
   - "./assets/uploaded_docs"
-vector_store_path: "./vector_store"
-max_batch_size: 50
+vector_store_path: "./vector_store_db"
+max_batch_size: 100
 
 # LLM settings
-chat_model: "qwen3.5:4b"
+chat_model: "qwen3:8b"
 embedding_model: "nomic-embed-text-v2-moe:latest"
 
 # vector store settings

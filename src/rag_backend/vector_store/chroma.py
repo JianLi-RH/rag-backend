@@ -1,5 +1,4 @@
-# -*- coding: gbk -*-
-from langchain_community.embeddings import OllamaEmbeddings
+# -*- coding: utf-8 -*-
 from typing import List, Any
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
@@ -24,21 +23,16 @@ class ChromaVectorStore(BaseVectorStore):
     def add_documents(self, documents: List[Document]) -> None:
         """Add documents to Chroma"""
         logger.info(f"Adding {len(documents)} documents to Chroma collection {self.collection_name}")
-        collection = self.client.get_or_create_collection(name=self.collection_name, embedding_function=self.embeddings)
         
-        docs = []
-        metadata = []
-        ids = []
-        for doc in documents:
-            ids.append(doc.metadata.get('id'))
-            docs.append(doc.page_content)
-            metadata.append(doc.metadata)
-
-        collection.add(
-            documents=docs,
-            metadatas=metadata,
-            ids=ids
+        # 使用 langchain_chroma.Chroma 来添加文档
+        db = Chroma(
+            embedding_function=self.embeddings,
+            collection_name=self.collection_name,
+            persist_directory=settings.vector_store_path
         )
+        
+        db.add_documents(documents=documents)
+        logger.info(f"Successfully added {len(documents)} documents")
     
     def as_retriever(self, **kwargs: Any) -> None:
         """Return a retriever interface"""

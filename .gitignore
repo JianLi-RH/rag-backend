@@ -10,7 +10,7 @@ wheels/
 .venv
 
 # Project-specific directories
-vector_store/
+vector_store_db/
 logs/
 uploaded_docs/
 

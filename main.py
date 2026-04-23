@@ -67,6 +67,7 @@ def get_files():
     """Get all files from file-status.json."""
     try:
         files = file_status_manager.get_all_files()
+        logger.info(f"There are {len(files)} files in file-status.json")
         return files
     except Exception as e:
         logger.error(f"Failed to get files: {e}")
@@ -107,7 +108,7 @@ async def embed_document(
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Failed to vectorize document with unknown error: {e}")
+        logger.error(f"[embed_document] Failed to vectorize document with unknown error: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to vectorize document with unknown error: {e}")
 
 
@@ -125,7 +126,9 @@ def ask_question(request: AskRequest):
 
     rag_chain = get_rag_chain(vector_store)
     try:
+        logger.info(f"Received question: {request.query}")
         answer = rag_chain.invoke(request.query)
+        logger.info(f"Answer: {answer}")
         return {"answer": answer}
     except HTTPException:
         raise
