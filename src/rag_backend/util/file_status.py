@@ -5,6 +5,23 @@ import json
 from datetime import datetime
 from typing import List, Dict, Optional
 
+def format_bytes(bytes_size: int) -> str:
+    """将字节数转换为人类可读的格式"""
+    if bytes_size == 0:
+        return "0 B"
+    
+    units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
+    unit_index = 0
+    
+    while bytes_size >= 1024.0 and unit_index < len(units) - 1:
+        bytes_size /= 1024.0
+        unit_index += 1
+    
+    if unit_index == 0:
+        return f"{int(bytes_size)} {units[unit_index]}"
+    else:
+        return f"{bytes_size:.2f} {units[unit_index]}"
+    
 class FileStatusManager:
     def __init__(self, status_file: str = "file-status.json"):
         self.status_file = status_file
@@ -18,6 +35,12 @@ class FileStatusManager:
 
     def get_all_files(self) -> List[Dict]:
         """Get all files from status file."""
+
+        if not os.path.exists(self.status_file):
+            with open(self.status_file, 'w', encoding='utf-8') as f:
+                json.dump({"files": []}, f, ensure_ascii=False, indent=4)
+            return []
+
         with open(self.status_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
             return data.get("files", [])
@@ -37,6 +60,7 @@ class FileStatusManager:
 
     def add_file(self, file_name: str, file_path: str, embeded: bool = False) -> Dict:
         """Add a new file to status."""
+        size = format_bytes(os.stat(file_path).st_size)
         files = self.get_all_files()
         normalized_path = self._normalize_path(file_path)
 
@@ -48,6 +72,7 @@ class FileStatusManager:
             "name": file_name,
             "path": file_path,
             "embeded": embeded,
+            "size": size,
             "upload_time": datetime.now().isoformat(),
             "vectorized_time": None
         }
