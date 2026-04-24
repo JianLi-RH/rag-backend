@@ -24,8 +24,6 @@ class ChromaVectorStore(BaseVectorStore):
     def add_documents(self, documents: List[Document]) -> None:
         """Add documents to Chroma"""
         logger.info(f"Adding {len(documents)} documents to Chroma collection {self.collection_name}")
-        
-        # ʹ�� langchain_chroma.Chroma �������ĵ�
         db = Chroma(
             embedding_function=self.embeddings,
             collection_name=self.collection_name,

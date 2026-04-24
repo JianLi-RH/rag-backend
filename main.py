@@ -99,9 +99,7 @@ async def embed_document(
 
         if not res:
             raise HTTPException(status_code=400, detail=f"Failed to vectorize document: {file_path}")
-
-        file_status_manager.update_file_status(file_path, embeded=True)
-
+    
         return {
             "message": f"Document '{file_path}' vectorized successfully.",
             "file_path": file_path

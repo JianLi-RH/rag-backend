@@ -50,5 +50,9 @@ async def embed_document_svc(file_path: str) -> bool:
             logger.error(f"[embed_document_svc] Batch content: {batch}")
             raise Exception(f"[embed_document_svc] Failed to embed batch {j}: {e}")
 
+    file_status_manager.update_file_status(file_path, 
+                                        embeded=True, 
+                                        provider=settings.embeddings_provider, 
+                                        module=settings.embedding_model)
     logger.info("Vector store updated successfully.")
     return True
