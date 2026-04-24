@@ -8,9 +8,9 @@
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from rag_backend.util import logger
 import pdfplumber
 
+from logger import logger
 
 class DocumentParser(ABC):
     @abstractmethod
@@ -58,7 +58,7 @@ class PDFParser(DocumentParser):
 
     def parse(self, file_path: str) -> str:
         with pdfplumber.open(file_path) as pdf:
-            # ²¢ÐÐÌáÈ¡Ò³ÃæÎÄ±¾
+            # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ò³ï¿½ï¿½ï¿½Ä±ï¿½
             page_texts = [page.extract_text() or "" for page in pdf.pages]
             all_text = " ".join(page_texts)
             return all_text

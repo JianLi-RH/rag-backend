@@ -4,8 +4,9 @@ from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
 from langchain_chroma import Chroma
 import chromadb
+
 from rag_backend.config.settings import settings
-from rag_backend.util import logger
+from logger import logger
 
 from .base import BaseVectorStore
 
@@ -24,7 +25,7 @@ class ChromaVectorStore(BaseVectorStore):
         """Add documents to Chroma"""
         logger.info(f"Adding {len(documents)} documents to Chroma collection {self.collection_name}")
         
-        # Ê¹ÓÃ langchain_chroma.Chroma À´Ìí¼ÓÎÄµµ
+        # Ê¹ï¿½ï¿½ langchain_chroma.Chroma ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½
         db = Chroma(
             embedding_function=self.embeddings,
             collection_name=self.collection_name,

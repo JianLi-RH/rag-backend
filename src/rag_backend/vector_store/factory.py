@@ -4,8 +4,9 @@ from rag_backend.embeding.factory import EmbeddingsFactory
 
 from .base import BaseVectorStore
 from .chroma import ChromaVectorStore
+
 from rag_backend.config.settings import settings
-from rag_backend.util import logger
+from logger import logger
 
 class VectorStoreFactory:
     """Factory for creating vector store instances"""

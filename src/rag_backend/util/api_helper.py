@@ -8,11 +8,11 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 from langchain_core.output_parsers import StrOutputParser
 from rag_backend.config.settings import settings
-from rag_backend.vector_store.factory import VectorStoreFactory
-from rag_backend.util.file_status import FileStatusManager
-from rag_backend.util.util import extract_archive, is_archive_file
+from rag_backend.util.file_status_helper import FileStatusManager
+from rag_backend.util.file_helper import extract_archive, is_archive_file
 
-logger = logging.getLogger(__name__)
+from logger import logger
+
 
 file_status_manager = FileStatusManager()
 llm = ChatOllama(model=settings.chat_model)
@@ -34,8 +34,10 @@ def process_uploaded_file(file_obj, file_path: str, target_directory: str):
     is_archive = is_archive_file(file_path)
 
     if is_archive:
+        logger.info(f"Detected archive file: {file_obj.filename}")
         return process_archive_file(file_obj, file_path, target_directory)
     else:
+        logger.info(f"Processing non-archive file: {file_obj.filename}")
         rel_path = file_status_manager.get_relative_path(file_path)
         file_status_manager.add_file(file_obj.filename, rel_path, embeded=False)
         return is_archive, extracted_files_relative, rel_path

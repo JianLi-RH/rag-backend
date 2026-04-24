@@ -28,8 +28,11 @@ def extract_archive(file_path: str, extract_to: str) -> List[str]:
         if ext == '.zip':
             extracted_files = _extract_zip(file_path, extract_to)
         elif ext == '.gz':
-            extracted_files = _extract_gzip(file_path, extract_to)
-        elif ext in ['.tar', '.tar.gz', '.tgz', '.tar.bz2', '.tar.xz']:
+            if ".tar" in file_path:
+                extracted_files = _extract_tar(file_path, extract_to)
+            else:
+                extracted_files = _extract_gzip(file_path, extract_to)
+        elif ext in ['.tar', '.tgz', '.bz2', '.xz']:
             extracted_files = _extract_tar(file_path, extract_to)
         else:
             # Not an archive, just copy the file
@@ -84,7 +87,7 @@ def _extract_tar(tar_path: str, extract_to: str) -> List[str]:
 
 def get_supported_archive_extensions() -> List[str]:
     """Get list of supported archive extensions."""
-    return ['.zip', '.gz', '.tar', '.tar.gz', '.tgz', '.tar.bz2', '.tar.xz']
+    return ['.zip', '.gz', '.tar', '.tgz', '.bz2', '.xz']
 
 
 def is_archive_file(file_path: str) -> bool:

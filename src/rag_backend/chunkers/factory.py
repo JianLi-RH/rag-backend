@@ -3,13 +3,13 @@
 from rag_backend.util import file_status_manager
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any
-from rag_backend.util import logger
 import re
 import os
 import uuid
-from rag_backend.config.settings import settings
 from langchain_core.documents import Document
 
+from logger import logger
+from rag_backend.config.settings import settings
 
 class DocumentChunker(ABC):
 

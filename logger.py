@@ -1,8 +1,7 @@
+# -*- coding: utf-8 -*-
 import os
 import logging
 from logging.handlers import RotatingFileHandler
-from .file_helper import extract_archive, is_archive_file, get_supported_archive_extensions
-from .file_status_helper import FileStatusManager
 from rag_backend.config.settings import settings
 
 log_file = settings.get("logging.log_file", "./logs/app.log")
@@ -35,14 +34,3 @@ file_handler.setFormatter(formatter)
 root_logger.addHandler(file_handler)
 
 logger = logging.getLogger(__name__)
-
-file_status_manager = FileStatusManager()
-
-__all__ = [
-    'extract_archive',
-    'is_archive_file',
-    'get_supported_archive_extensions',
-    'FileStatusManager',
-    'file_status_manager',
-    'logger',
-]

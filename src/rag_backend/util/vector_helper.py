@@ -6,7 +6,8 @@ from rag_backend.parsers.factory import DocumentParserFactory
 from rag_backend.chunkers.factory import DocumentChunkerFactory
 
 from rag_backend.util import file_status_manager
-from rag_backend.util import logger
+from logger import logger
+
 
 async def embed_document_svc(file_path: str) -> bool:
     """Embed a document."""

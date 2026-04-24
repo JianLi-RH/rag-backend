@@ -9,8 +9,9 @@ from rag_backend.util.api_helper import (
     process_uploaded_file,
     get_rag_chain
 )
-from rag_backend.util import logger
 from fastapi.middleware.cors import CORSMiddleware
+
+from logger import logger
 
 app = FastAPI()
 
