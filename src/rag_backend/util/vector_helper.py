@@ -1,4 +1,5 @@
 # -*- coding: gbk -*-
+from datetime import datetime
 import os
 from rag_backend.vector_store.factory import VectorStoreFactory
 from rag_backend.config.settings import settings
@@ -52,6 +53,7 @@ async def embed_document_svc(file_path: str) -> bool:
 
     file_status_manager.update_file_status(file_path, 
                                         embeded=True, 
+                                        vectorized_time=datetime.now().isoformat(),
                                         provider=settings.embeddings_provider, 
                                         module=settings.embedding_model)
     logger.info("Vector store updated successfully.")
