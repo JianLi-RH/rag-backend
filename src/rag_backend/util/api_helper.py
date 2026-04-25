@@ -94,10 +94,12 @@ def format_docs(docs):
 
 template = """You are an assistant for question-answering tasks.
 Use the following pieces of retrieved context to answer the question.
+The answer should be in Chinese and contains title, source, chunk_index.
 If you don't know the answer, just say that you don't know.
-Use three sentences maximum and keep the answer concise.
 Question: {question}
 Context: {context}
 Answer:"""
+
+# Use three sentences maximum and keep the answer concise.
 
 prompt = ChatPromptTemplate.from_template(template)

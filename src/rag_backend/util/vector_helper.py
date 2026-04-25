@@ -54,7 +54,9 @@ async def embed_document_svc(file_path: str) -> bool:
     file_status_manager.update_file_status(file_path, 
                                         embeded=True, 
                                         vectorized_time=datetime.now().isoformat(),
-                                        provider=settings.embeddings_provider, 
-                                        module=settings.embedding_model)
+                                        embeddings_provider=settings.embeddings_provider, 
+                                        embedding_model=settings.embedding_model,
+                                        vector_store_type=settings.vector_store_type)
+    
     logger.info("Vector store updated successfully.")
     return True

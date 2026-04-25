@@ -4,6 +4,7 @@ from rag_backend.embeding.factory import EmbeddingsFactory
 
 from .base import BaseVectorStore
 from .chroma import ChromaVectorStore
+from .faiss import FAISSVectorStore
 
 from rag_backend.config.settings import settings
 from logger import logger
@@ -12,7 +13,8 @@ class VectorStoreFactory:
     """Factory for creating vector store instances"""
     
     _stores: Dict[str, Type[BaseVectorStore]] = {
-        'chroma': ChromaVectorStore
+        'chroma': ChromaVectorStore,
+        'faiss': FAISSVectorStore
     }
     
     @classmethod
