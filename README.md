@@ -6,44 +6,94 @@ This is a RAG (Retrieval-Augmented Generation) backend project that provides doc
 
 - **Multi-format document parsing**: Supports .docx, .pdf, .md, .txt, .xlsx files
 - **Intelligent document chunking**: Different chunking strategies for different document types
-  - Word: Chunk by sections (headings)
-  - Markdown: Chunk by headings
-  - Text: Chunk by paragraphs
-- **Vector store integration**: Uses FAISS for efficient similarity search
-- **RESTful API**: Provides endpoints for document upload and question answering
+- **Vector store integration**: Supports both FAISS and Chroma for efficient similarity search
+- **RESTful API**: Provides endpoints for document upload, vectorization, and question answering
 - **Configurable settings**: All settings are stored in config.yaml
+- **Modular architecture**: Clean, organized code structure with separated components
 
 ## Project Structure
 
 ```
 rag_backend/
-?????? config.yaml                # Configuration file
-?????? pyproject.toml             # Project configuration
-?????? main.py                    # FastAPI application
-?????? src/rag_backend/
-??   ?????? parsers/               # Document parsers
-??   ??   ?????? factory.py         # Parser factory
-??   ?????? chunkers/              # Document chunkers
-??   ??   ?????? factory.py         # Chunker factory
-??   ?????? config/                # Configuration management
-??       ?????? settings.py        # Settings loader
+©À©¤©¤ config.yaml                # Configuration file
+©À©¤©¤ main.py                    # FastAPI application
+©À©¤©¤ src/
+©¦   ©À©¤©¤ api/                   # API endpoints (separated by function)
+©¦   ©¦   ©À©¤©¤ __init__.py
+©¦   ©¦   ©À©¤©¤ ask_question.py
+©¦   ©¦   ©À©¤©¤ embed_document.py
+©¦   ©¦   ©À©¤©¤ get_files.py
+©¦   ©¦   ©¸©¤©¤ upload_document.py
+©¦   ©À©¤©¤ rag_backend/
+©¦   ©¦   ©À©¤©¤ chunkers/          # Document chunkers (separated by file type)
+©¦   ©¦   ©¦   ©À©¤©¤ __init__.py
+©¦   ©¦   ©¦   ©À©¤©¤ base.py
+©¦   ©¦   ©¦   ©À©¤©¤ factory.py
+©¦   ©¦   ©¦   ©À©¤©¤ markdown_chunker.py
+©¦   ©¦   ©¦   ©À©¤©¤ pdf_chunker.py
+©¦   ©¦   ©¦   ©À©¤©¤ table_chunker.py
+©¦   ©¦   ©¦   ©À©¤©¤ text_chunker.py
+©¦   ©¦   ©¦   ©¸©¤©¤ word_chunker.py
+©¦   ©¦   ©À©¤©¤ config/            # Configuration management
+©¦   ©¦   ©¦   ©À©¤©¤ __init__.py
+©¦   ©¦   ©¦   ©¸©¤©¤ settings.py
+©¦   ©¦   ©À©¤©¤ embeding/          # Embedding models
+©¦   ©¦   ©¦   ©¸©¤©¤ factory.py
+©¦   ©¦   ©À©¤©¤ parsers/           # Document parsers (separated by file type)
+©¦   ©¦   ©¦   ©À©¤©¤ __init__.py
+©¦   ©¦   ©¦   ©À©¤©¤ base.py
+©¦   ©¦   ©¦   ©À©¤©¤ excel_parser.py
+©¦   ©¦   ©¦   ©À©¤©¤ factory.py
+©¦   ©¦   ©¦   ©À©¤©¤ markdown_parser.py
+©¦   ©¦   ©¦   ©À©¤©¤ pdf_parser.py
+©¦   ©¦   ©¦   ©À©¤©¤ text_parser.py
+©¦   ©¦   ©¦   ©¸©¤©¤ word_parser.py
+©¦   ©¦   ©À©¤©¤ util/              # Utility functions
+©¦   ©¦   ©¦   ©À©¤©¤ __init__.py
+©¦   ©¦   ©¦   ©À©¤©¤ api_helper.py
+©¦   ©¦   ©¦   ©À©¤©¤ file_helper.py
+©¦   ©¦   ©¦   ©À©¤©¤ file_status_helper.py
+©¦   ©¦   ©¦   ©¸©¤©¤ vector_helper.py
+©¦   ©¦   ©À©¤©¤ vector_store/      # Vector storage implementations
+©¦   ©¦   ©¦   ©À©¤©¤ base.py
+©¦   ©¦   ©¦   ©À©¤©¤ chroma.py
+©¦   ©¦   ©¦   ©À©¤©¤ factory.py
+©¦   ©¦   ©¦   ©¸©¤©¤ faiss.py
+©¦   ©¦   ©¸©¤©¤ __init__.py
 ```
 
 ## Installation
 
 ### Prerequisites
 - Python 3.11+
-- uv package manager
+- uv package manager (recommended) or pip
 
 ### Steps
 1. Clone the repository
-2. Install dependencies (this will automatically create and set up the virtual environment):
+2. Install dependencies:
    ```bash
+   # Using uv (recommended)
    uv sync
+   
+   # Using pip
+   pip install -r requirements.txt
    ```
-3. Run the application (uv will automatically use the virtual environment):
+3. Run the application:
    ```bash
+   # Using uv
    uv run python main.py
+   
+   # Using pip (with virtual environment activated)
+   python main.py
+   ```
+   
+   For production use, you can use uvicorn:
+   ```bash
+   # Development mode
+   uv run uvicorn main:app --port 3001 --reload
+   
+   # Production mode
+   uv run uvicorn main:app --workers 4 --port 3001
    ```
 
 ### Optional: Activate the virtual environment
@@ -61,31 +111,30 @@ source .venv/bin/activate
 
 Update `config.yaml` to customize settings:
 
-- `document_parser.supported_types`: List of supported file extensions
 - `document_chunker.chunk_settings`: Chunk size and overlap for each file type
-- `ollama_model`: Ollama model for text generation
-- `embedding_model`: Embedding model for vectorization
 - `docs_paths`: Directories to scan for documents
 - `vector_store_path`: Path to save vector store
+- `max_batch_size`: Batch size for vectorization
+- `chat_model`: LLM model for text generation
+- `embedding_model`: Embedding model for vectorization
+- `embeddings_provider`: Embedding provider (e.g., "ollama")
+- `vector_store_type`: Vector store type ("chroma" or "faiss")
 
 ## API Endpoints
 
 ### POST /upload_document
-Upload a document and add it to the vector store.
+Upload a document to the server.
 
 **Request:**
 - `file`: File to upload (multipart/form-data)
-- `target_directory`: Directory to save the file (default: "./uploaded_docs")
 
 **Response:**
 ```json
 {
-  "message": "File 'example.docx' uploaded and processed successfully.",
-  "file_path": "./uploaded_docs/example.docx"
+  "message": "File 'example.docx' uploaded successfully.",
+  "file_path": "uploaded_docs/example.docx"
 }
 ```
-
-}
 
 ### GET /files
 Get all files from file-status.json.
@@ -96,14 +145,28 @@ Get all files from file-status.json.
   {
     "name": "example.docx",
     "path": "uploaded_docs/example.docx",
-    "embedded": false
+    "embeded": "not_started"
   },
   {
     "name": "test.pdf",
     "path": "uploaded_docs/test.pdf",
-    "embedded": true
+    "embeded": "completed"
   }
 ]
+```
+
+### POST /embed_document
+Vectorize a document that has been uploaded but not yet vectorized.
+
+**Request:**
+- `file_path`: Relative path to the file (multipart/form-data)
+
+**Response:**
+```json
+{
+  "message": "Document 'uploaded_docs/example.docx' vectorized successfully.",
+  "file_path": "uploaded_docs/example.docx"
+}
 ```
 
 ### POST /ask
@@ -123,20 +186,6 @@ Ask a question based on the knowledge base.
 }
 ```
 
-### POST /embed_document
-Vectorize a document that has been uploaded but not yet vectorized.
-
-**Request:**
-- `file_path`: Relative path to the file (multipart/form-data)
-
-**Response:**
-```json
-{
-  "message": "Document './uploaded_docs/example.docx' vectorized successfully.",
-  "file_path": "./uploaded_docs/example.docx"
-}
-```
-
 ## Usage Examples
 
 ### Uploading a Document
@@ -144,8 +193,7 @@ Vectorize a document that has been uploaded but not yet vectorized.
 #### Linux/macOS (curl)
 ```bash
 curl -X POST "http://localhost:3001/upload_document" \
-  -F "file=@example.docx" \
-  -F "target_directory=./uploaded_docs"
+  -F "file=@example.docx"
 ```
 
 #### Windows (PowerShell)
@@ -163,16 +211,12 @@ $fileName = [System.IO.Path]::GetFileName($filePath)
 $fileContent = New-Object System.Net.Http.StreamContent($fileStream)
 $streamProvider.Add($fileContent, "file", $fileName)
 
-$directoryContent = New-Object System.Net.Http.StringContent("./uploaded_docs")
-$streamProvider.Add($directoryContent, "target_directory")
-
 $response = $httpClient.PostAsync($uri, $streamProvider).Result
 $response.Content.ReadAsStringAsync().Result
 
 # Method 2: Using curl.exe (if installed)
 curl.exe -X POST "http://localhost:3001/upload_document" `
-  -F "file=@example.docx" `
-  -F "target_directory=./uploaded_docs"
+  -F "file=@example.docx"
 ```
 
 ### Getting All Files
@@ -190,6 +234,29 @@ $response
 
 # Or using curl.exe (if installed)
 curl.exe -X GET "http://localhost:3001/files"
+```
+
+### Vectorizing a Document
+
+#### Linux/macOS (curl)
+```bash
+curl -X POST "http://localhost:3001/embed_document" \
+  -F "file_path=uploaded_docs/example.docx"
+```
+
+#### Windows (PowerShell)
+```powershell
+# Using Invoke-WebRequest
+$response = Invoke-WebRequest -Uri "http://localhost:3001/embed_document" `
+  -Method Post `
+  -Form @{
+    file_path = "uploaded_docs/example.docx"
+  }
+$response
+
+# Or using curl.exe (if installed)
+curl.exe -X POST "http://localhost:3001/embed_document" `
+  -F "file_path=uploaded_docs/example.docx"
 ```
 
 ### Asking a Question
@@ -220,29 +287,6 @@ curl.exe -X POST "http://localhost:3001/ask" `
   -d '{"query": "What are the key features?"}'
 ```
 
-### Vectorizing a Document
-
-#### Linux/macOS (curl)
-```bash
-curl -X POST "http://localhost:3001/embed_document" \
-  -F "file_path=./uploaded_docs/example.docx"
-```
-
-#### Windows (PowerShell)
-```powershell
-# Using Invoke-WebRequest
-$response = Invoke-WebRequest -Uri "http://localhost:3001/embed_document" `
-  -Method Post `
-  -Form @{
-    file_path = "./uploaded_docs/example.docx"
-  }
-$response
-
-# Or using curl.exe (if installed)
-curl.exe -X POST "http://localhost:3001/embed_document" `
-  -F "file_path=./uploaded_docs/example.docx"
-```
-
 ## Supported File Types
 
 - **Word (.docx)**: Parses headings and paragraphs
@@ -256,11 +300,18 @@ curl.exe -X POST "http://localhost:3001/embed_document" `
 
 | File Type | Chunk Strategy | Default Chunk Size | Default Overlap |
 |-----------|----------------|-------------------|----------------|
-| .docx     | By sections    | 1000              | 200            |
-| .pdf      | By pages       | 1200              | 300            |
-| .md       | By headings    | 800               | 150            |
-| .txt      | By paragraphs  | 1000              | 200            |
-| .xlsx     | By rows        | 500               | 100            |
+| .docx     | By sections    | 250               | 50             |
+| .pdf      | By chapters    | 200               | 50             |
+| .md       | By content     | 200               | 50             |
+| .txt      | By content     | 150               | 50             |
+| .xlsx     | By rows        | 200               | 50             |
+
+## Vector Store Options
+
+The project supports two vector store implementations:
+
+1. **FAISS**: Fast, lightweight vector store suitable for smaller datasets
+2. **Chroma**: Feature-rich vector store with more advanced capabilities
 
 ## License
 

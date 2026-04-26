@@ -1,15 +1,14 @@
-from rag_backend.vector_store.factory import VectorStoreFactory
-import os
+# -*- coding: utf-8 -*-
+
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
-from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
+
 import uvicorn
-from rag_backend.util import file_status_manager
 from rag_backend.util.api_helper import (
     save_uploaded_file,
     process_uploaded_file,
     get_rag_chain
 )
-from fastapi.middleware.cors import CORSMiddleware
 
 from api import upload_document, get_files, embed_document, ask_question, AskRequest
 
@@ -29,7 +28,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 @app.post("/upload_document")
 async def upload_document_endpoint(
@@ -51,9 +49,14 @@ async def embed_document_endpoint(
 
 
 @app.post("/ask")
-def ask_question_endpoint(request: AskRequest):
-    return ask_question(request)
+async def ask_question_endpoint(request: AskRequest):
+    return await ask_question(request)
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=3001, timeout_keep_alive=900)
+    uvicorn.run(
+        app, 
+        host="127.0.0.1", 
+        port=3001, 
+        workers=4,
+        timeout_keep_alive=900)
