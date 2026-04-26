@@ -11,7 +11,7 @@ from rag_backend.util.api_helper import (
 )
 from fastapi.middleware.cors import CORSMiddleware
 
-from logger import logger
+from api import upload_document, get_files, embed_document, ask_question, AskRequest
 
 app = FastAPI()
 
@@ -32,101 +32,28 @@ app.add_middleware(
 
 
 @app.post("/upload_document")
-async def upload_document(
+async def upload_document_endpoint(
     file: UploadFile = File(...),
     target_directory: str = Form("./uploaded_docs"),
 ):
-    """Uploads a document, saves it to a specified directory, and updates file-status.json."""
-    try:
-        logger.info(f"Target directory received: {target_directory}")
-
-        file_path = save_uploaded_file(file, target_directory)
-        logger.info(f"Attempting to save file to: {file_path}")
-
-        is_archive, extracted_files_relative, rel_path = process_uploaded_file(file, file_path, target_directory)
-
-        if is_archive:
-            return {
-                "message": f"Archive '{file.filename}' uploaded successfully.",
-                "extracted_files": extracted_files_relative,
-                "processed_files": len(extracted_files_relative)
-            }
-        else:
-            return {
-                "message": f"File '{file.filename}' uploaded successfully.",
-                "file_path": rel_path
-            }
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Failed to upload document: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to upload document: {e}")
+    return await upload_document(file, target_directory)
 
 
 @app.get("/files")
-def get_files():
-    """Get all files from file-status.json."""
-    try:
-        files = file_status_manager.get_all_files()
-        logger.info(f"There are {len(files)} files in file-status.json")
-        return files
-    except Exception as e:
-        logger.error(f"Failed to get files: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to get files: {e}")
+def get_files_endpoint():
+    return get_files()
 
 
 @app.post("/embed_document")
-async def embed_document(
+async def embed_document_endpoint(
     file_path: str = Form(...)
 ):
-    """Embeds a document that has been uploaded but not yet vectorized."""
-    from rag_backend.util.vector_helper import embed_document_svc
-    from enums import EmbedStatus
-
-    file_status_obj = file_status_manager.get_file_status(file_path)
-    if not file_status_obj:
-        abs_path = file_status_manager.get_absolute_path(file_path)
-        if not os.path.exists(abs_path):
-            raise HTTPException(status_code=404, detail=f"File not found: {file_path}")
-        file_name = os.path.basename(abs_path)
-        file_status_obj = file_status_manager.add_file(file_name, file_path, embeded=EmbedStatus.not_started.name)
-
-    if file_status_obj.get('embeded') == EmbedStatus.completed.name:
-        raise HTTPException(status_code=400, detail=f"File already vectorized: {file_path}")
-
-    res = await embed_document_svc(file_status_obj)
-
-    if not res:
-        raise HTTPException(status_code=400, detail=f"Failed to vectorize document: {file_path}")
-
-    return {
-        "message": f"Document '{file_path}' vectorized successfully.",
-        "file_path": file_path
-    }
-
-class AskRequest(BaseModel):
-    query: str
+    return await embed_document(file_path)
 
 
 @app.post("/ask")
-def ask_question(request: AskRequest):
-    """Answers a question based on the knowledge base."""
-    vector_store = VectorStoreFactory.create(collection_name="default")
-    logger.info("Vector store loaded from disk.")
-    if vector_store is None:
-        raise HTTPException(status_code=500, detail="No documents found in the knowledge base. Please upload some documents first.")
-
-    rag_chain = get_rag_chain(vector_store)
-    try:
-        logger.info(f"Received question: {request.query}")
-        answer = rag_chain.invoke(request.query)
-        logger.info(f"Answer: {answer}")
-        return {"answer": answer}
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Failed to answer question: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to answer question: {e}")
+def ask_question_endpoint(request: AskRequest):
+    return ask_question(request)
 
 
 if __name__ == "__main__":
