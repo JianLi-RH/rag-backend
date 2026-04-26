@@ -5,6 +5,8 @@ import json
 from datetime import datetime
 from typing import List, Dict, Optional
 
+from enums import EmbedStatus
+
 def format_bytes(bytes_size: int) -> str:
     """���ֽ���ת��Ϊ����ɶ��ĸ�ʽ��"""
     if bytes_size == 0:
@@ -58,7 +60,7 @@ class FileStatusManager:
                 return file_info
         return None
 
-    def add_file(self, file_name: str, file_path: str, embeded: bool = False) -> Dict:
+    def add_file(self, file_name: str, file_path: str, embeded: str = EmbedStatus.not_started.name) -> Dict:
         """Add a new file to status."""
         size = format_bytes(os.stat(file_path).st_size)
         files = self.get_all_files()
@@ -100,12 +102,12 @@ class FileStatusManager:
             return file_info
         return None
 
-    def update_vectorized_status(self, file_path: str, embeded: bool) -> Optional[Dict]:
+    def update_vectorized_status(self, file_path: str, embeded: str) -> Optional[Dict]:
         """Update vectorization status for a file."""
         updates = {
             'embeded': embeded
         }
-        if embeded:
+        if embeded == EmbedStatus.completed.name:
             updates['vectorized_time'] = datetime.now().isoformat()
         else:
             updates['vectorized_time'] = None

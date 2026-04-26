@@ -81,35 +81,28 @@ async def embed_document(
 ):
     """Embeds a document that has been uploaded but not yet vectorized."""
     from rag_backend.util.vector_helper import embed_document_svc
+    from enums import EmbedStatus
 
-    try:
-        file_status_obj = file_status_manager.get_file_status(file_path)
-        if not file_status_obj:
-            abs_path = file_status_manager.get_absolute_path(file_path)
-            if not os.path.exists(abs_path):
-                raise HTTPException(status_code=404, detail=f"File not found: {file_path}")
-            file_name = os.path.basename(abs_path)
-            file_status_obj = file_status_manager.add_file(file_name, file_path, embeded=False)
+    file_status_obj = file_status_manager.get_file_status(file_path)
+    if not file_status_obj:
+        abs_path = file_status_manager.get_absolute_path(file_path)
+        if not os.path.exists(abs_path):
+            raise HTTPException(status_code=404, detail=f"File not found: {file_path}")
+        file_name = os.path.basename(abs_path)
+        file_status_obj = file_status_manager.add_file(file_name, file_path, embeded=EmbedStatus.not_started.name)
 
-        if file_status_obj.get('embeded', False):
-            file_status_manager.update_file_status(file_path, embeded=True)
-            raise HTTPException(status_code=400, detail=f"File already vectorized: {file_path}")
+    if file_status_obj.get('embeded') == EmbedStatus.completed.name:
+        raise HTTPException(status_code=400, detail=f"File already vectorized: {file_path}")
 
-        res = await embed_document_svc(file_path)
+    res = await embed_document_svc(file_status_obj)
 
-        if not res:
-            raise HTTPException(status_code=400, detail=f"Failed to vectorize document: {file_path}")
-    
-        return {
-            "message": f"Document '{file_path}' vectorized successfully.",
-            "file_path": file_path
-        }
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"[embed_document] Failed to vectorize document with unknown error: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to vectorize document with unknown error: {e}")
+    if not res:
+        raise HTTPException(status_code=400, detail=f"Failed to vectorize document: {file_path}")
 
+    return {
+        "message": f"Document '{file_path}' vectorized successfully.",
+        "file_path": file_path
+    }
 
 class AskRequest(BaseModel):
     query: str

@@ -1,16 +1,18 @@
 # -*- coding: gbk -*-
+
 import os
 import shutil
-import logging
 from fastapi import HTTPException
 from langchain_community.chat_models import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 from langchain_core.output_parsers import StrOutputParser
+
 from rag_backend.config.settings import settings
 from rag_backend.util.file_status_helper import FileStatusManager
 from rag_backend.util.file_helper import extract_archive, is_archive_file
 
+from enums import EmbedStatus
 from logger import logger
 
 
@@ -39,7 +41,7 @@ def process_uploaded_file(file_obj, file_path: str, target_directory: str):
     else:
         logger.info(f"Processing non-archive file: {file_obj.filename}")
         rel_path = file_status_manager.get_relative_path(file_path)
-        file_status_manager.add_file(file_obj.filename, rel_path, embeded=False)
+        file_status_manager.add_file(file_obj.filename, rel_path, embeded=EmbedStatus.not_started.name)
         return is_archive, extracted_files_relative, rel_path
 
 def process_archive_file(file_obj, file_path: str, target_directory: str):
@@ -62,7 +64,7 @@ def process_archive_file(file_obj, file_path: str, target_directory: str):
         rel_path = file_status_manager.get_relative_path(ext_file)
         extracted_files_relative.append(rel_path)
         file_name = os.path.basename(ext_file)
-        file_status_manager.add_file(file_name, rel_path, embeded=False)
+        file_status_manager.add_file(file_name, rel_path, embeded=EmbedStatus.not_started.name)
 
     os.remove(file_path)
     logger.info(f"Deleted archive file: {file_path}")
