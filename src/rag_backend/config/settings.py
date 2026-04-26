@@ -36,15 +36,27 @@ class Settings:
         return value
 
     @property
+    def upload_dir(self) -> str:
+        return self.get("upload_dir", "./uploaded_docs")
+
+    @property
+    def chunk_dir(self) -> str:
+        return self.get("chunk_dir", "./chunks")
+
+    @property
+    def vector_store_path(self) -> str:
+        return self.get("vector_store_path", "./vector_store_db")
+    
+    def get_chunk_config(self, file_extension: str) -> Dict[str, int]:
+        return self.chunk_settings.get(file_extension, {"chunk_size": 1000, "overlap": 200})
+
+    @property
     def parser_supported_types(self) -> list:
         return self.get("document_parser.supported_types", [])
 
     @property
     def chunk_settings(self) -> Dict[str, Dict[str, int]]:
         return self.get("document_chunker.chunk_settings", {})
-
-    def get_chunk_config(self, file_extension: str) -> Dict[str, int]:
-        return self.chunk_settings.get(file_extension, {"chunk_size": 1000, "overlap": 200})
 
     @property
     def chat_model(self) -> str:
@@ -61,10 +73,6 @@ class Settings:
     @property
     def docs_paths(self) -> list:
         return self.get("docs_paths", ["./docs"])
-
-    @property
-    def vector_store_path(self) -> str:
-        return self.get("vector_store_path", "./vector_store")
 
     @property
     def max_batch_size(self) -> int:

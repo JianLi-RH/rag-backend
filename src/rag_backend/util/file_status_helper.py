@@ -75,8 +75,7 @@ class FileStatusManager:
             "path": file_path,
             "embeded": embeded,
             "size": size,
-            "upload_time": datetime.now().isoformat(),
-            "vectorized_time": None
+            "upload_time": datetime.now().isoformat()
         }
 
         files.append(new_file)

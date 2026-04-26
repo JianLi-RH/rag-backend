@@ -34,9 +34,8 @@ app.add_middleware(
 @app.post("/upload_document")
 async def upload_document_endpoint(
     file: UploadFile = File(...),
-    target_directory: str = Form("./uploaded_docs"),
 ):
-    return await upload_document(file, target_directory)
+    return await upload_document(file)
 
 
 @app.get("/files")
